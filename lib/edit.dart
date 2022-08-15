@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
 import 'record.dart';
-import 'info.dart';
-import 'main.dart';
+import 'package:phone_book/record_model.dart';
 
 class Edit extends StatefulWidget {
-  Record record;
-  Function(Record record) rFunc;
-  Edit({required this.record});
+  RecordModel? recordMdl;
+  Function(RecordModel? record) rFunc;
+  Edit({required this.recordMdl, required this.rFunc});
 
   @override
   State<Edit> createState() => _EditState();
 }
 
 class _EditState extends State<Edit> {
+  RecordModel?  _recordModel;
+
+  @override
+  void initState() {
+   _recordModel = widget.recordMdl;
+    super.initState();
+  }
   //TextEditingController _controller = new TextEditingController(text: '${record.name}');
   @override
   Widget build(BuildContext context) {
-    TextEditingController _controller = TextEditingController(text: '${widget.record.name}');
-    TextEditingController _controller2 = TextEditingController(text: '${widget.record.number}');
+    TextEditingController _controller = TextEditingController(text: '${widget.recordMdl?.name}');
+    TextEditingController _controller2 = TextEditingController(text: '${widget.recordMdl?.number}');
+
 
     return Scaffold(
       backgroundColor: Colors.grey[900],
@@ -65,12 +72,20 @@ class _EditState extends State<Edit> {
             ),
             SizedBox(height: 15.0),
             ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                  elevation: 12.0,
-                  textStyle: const TextStyle(color: Colors.grey)),
-
+              onPressed: () {
+                _recordModel?.name = _controller.text;
+                _recordModel?.number = _controller2.text;
+                widget.rFunc(_recordModel);
+                Navigator.pop(context);
+              },
               child: const Text('Save'),
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.red,
+                  onPrimary: Colors.black,
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
             ),
           ],
         ),

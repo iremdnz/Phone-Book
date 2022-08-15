@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'record.dart';
 import 'edit.dart';
-import 'main.dart';
+import 'package:phone_book/record_model.dart';
 
-class Info extends StatelessWidget {
-  Record record;
-  Info({required this.record});
+class Info extends StatefulWidget {
+  RecordModel? recordMdl;
+  Info({required this.recordMdl});
+
+  @override
+  State<Info> createState() => _InfoState();
+}
+
+class _InfoState extends State<Info> {
+  RecordModel?  _recordModel;
+
+  void initState() {
+    _recordModel = widget.recordMdl;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +53,7 @@ class Info extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             Text(
-                '${record.name}',
+                '${_recordModel?.name}',
                 style: TextStyle(
                   color: Colors.red,
                   letterSpacing: 2.0,
@@ -59,7 +71,7 @@ class Info extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             Text(
-                '${record.number}',
+                '${_recordModel?.number}',
                 style: TextStyle(
                   color: Colors.red,
                   letterSpacing: 2.0,
@@ -81,12 +93,13 @@ class Info extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    onPressed: () {
-                      Navigator.push(
+                    onPressed: ()  {
+                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Edit(record: record)
+                        MaterialPageRoute(builder: (context) => Edit(recordMdl: widget.recordMdl, rFunc: rFunc,)
                         ),
                       );
+
                     },
                     icon: Icon(
                         Icons.edit,
@@ -126,5 +139,13 @@ class Info extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  rFunc(RecordModel? record) {
+    setState(() {
+      _recordModel = record;
+    });
+
+
   }
 }

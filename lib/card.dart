@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'record.dart';
+import 'record_model.dart';
 
 class PCard extends StatelessWidget {
-  Record record;
+  //Record record;
+  RecordModel? recordMdl;
   Function() showInfo;
   Function() delete;
-  PCard({required this.record, required this.showInfo, required this.delete});
+  PCard({required this.recordMdl, required this.showInfo, required this.delete});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class PCard extends StatelessWidget {
           Expanded(
             flex: 4,
             child: Text(
-              record.name,
+                (recordMdl?.name ?? ""),
               style: TextStyle(
                 fontSize: 18.0,
                 color: Colors.white,
